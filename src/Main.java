@@ -18,12 +18,8 @@ public class Main {
         registry.registerListener(8080);
 
         System.out.println("Listening on port 8080");
-        while (true){
-            try(Socket socket = server.accept()){
-                Date date = new Date(); //Current time
-                String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + date;
-                socket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
-            }
-        }
+
+
+
     }
 }

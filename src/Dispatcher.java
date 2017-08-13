@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -11,8 +10,19 @@ public class Dispatcher {
 
     public static void dispatch(Socket socket) throws IOException {
 
-        Date date = new Date(); //Current time
-        String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + date + " Web Server";
-        socket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
+        BufferedReader reader = new BufferedReader(new FileReader("src/index.html") );
+
+        String line = reader.readLine();
+        StringBuilder sb = new StringBuilder();
+        sb.append("HTTP/1.1 200 OK\r\n\r\n");
+
+        while(line !=null)
+        {
+            sb.append(line).append("\n");
+            line = reader.readLine();
+        }
+        System.out.println(sb.toString());
+
+        socket.getOutputStream().write(sb.toString().getBytes("UTF-8"));
     }
 }

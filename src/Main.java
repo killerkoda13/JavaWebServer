@@ -1,6 +1,9 @@
 /**
  * Created by alex on 8/14/2017.
  */
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,9 +17,25 @@ public class Main {
 
                 Date todaysDate = new Date();
 
-                String response = "HTTP/1.1 200 OK\r\n\r\n" + todaysDate;
 
-                socket.getOutputStream().write(response.getBytes("UTF-8"));
+
+
+                String response = "HTTP/1.1 200 OK\r\n\r\n";
+
+
+                StringBuilder sb = new StringBuilder();
+
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("src/index.html"));
+
+                String line = response+bufferedReader.readLine();
+                while(line !=null)
+                {
+                    sb.append(line);
+                    line = bufferedReader.readLine();
+                }
+
+
+                socket.getOutputStream().write(sb.toString().getBytes("UTF-8"));
             }
         }
     }

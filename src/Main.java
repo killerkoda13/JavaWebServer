@@ -1,25 +1,24 @@
+/**
+ * Created by alex on 8/14/2017.
+ */
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
-
-/**
- * Created by alex on 8/12/2017.
- */
 public class Main {
+    public static void main(String args[]) throws IOException {
+        ServerSocket server = new ServerSocket(8080);
+        System.out.println("Starting to listen on port 8080");
+        while (true) {
+            try (Socket socket = server.accept()) {
 
+                Date todaysDate = new Date();
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("Starting web server . . .");
+                String response = "HTTP/1.1 200 OK\r\n\r\n" + todaysDate;
 
-
-        //Register port listener
-        ListenerRegistry registry = new ListenerRegistry();
-        registry.registerListener(8080);
-
-        System.out.println("Listening on port 8080");
-
-
-
+                socket.getOutputStream().write(response.getBytes("UTF-8"));
+            }
+        }
     }
 }
+
